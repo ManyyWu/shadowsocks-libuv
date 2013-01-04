@@ -2,6 +2,6 @@
     "server":"localhost",
     "server_port":8888,
     "local_port":1080,
-    "password":"foobar!",
+    "password":"barfoo!",
     "timeout":60
 }

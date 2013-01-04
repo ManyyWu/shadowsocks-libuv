@@ -8,7 +8,7 @@ import hashlib
 import string
 from subprocess import Popen, PIPE
 
-p1 = Popen(['../server'], shell=False, bufsize=0, stdin=PIPE, 
+p1 = Popen(['../server', '-k', 'barfoo!'], shell=False, bufsize=0, stdin=PIPE, 
     stdout=PIPE, stderr=PIPE, close_fds=True)
 p2 = Popen(['python', 'local.py'], shell=False, bufsize=0, stdin=PIPE,
     stdout=PIPE, stderr=PIPE, close_fds=True)

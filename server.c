@@ -490,7 +490,8 @@ int main(int argc, char *argv[])
 			    server_port = atoi(optarg);
 			    break;
 			case 'k':
-			    password = (uint8_t *)optarg;
+				password = malloc(strlen(optarg + 1));
+				strcpy((char *)password, optarg);
 			    break;
 			case 'f':
 			    pid_path = optarg;
