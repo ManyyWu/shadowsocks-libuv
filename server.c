@@ -272,6 +272,16 @@ static int do_handshake(uv_stream_t *stream)
 	server_ctx *ctx = (server_ctx *)stream->data;
 	int n;
 
+	/*
+	 * ipv4:
+	 * 0          1          5          7
+	 * |-> type <-|-> addr <-|-> port <-|
+	 * damain:
+	 * 0          1                2          2+len
+	 * |-> type <-|-> domain len <-|-> domain <-|
+	 *
+	 * */
+
 	if (!ctx->remote_ip) {
 		if (ctx->buffer_len < 2) // Not interpretable
 			return 1;
@@ -280,6 +290,9 @@ static int do_handshake(uv_stream_t *stream)
 			if (ctx->buffer_len < 5)
 				return 1;
 			ctx->remote_ip = *((uint32_t *)(ctx->handshake_buffer + 1));
+			if (ctx->remote_ip == 0) {
+			  // TODO: close
+			}
 			SHIFT_BYTE_ARRAY_TO_LEFT(ctx->handshake_buffer, 5, HANDSHAKE_BUFFER_SIZE);
 			ctx->buffer_len -= 5;
 			// TODO: Print out
